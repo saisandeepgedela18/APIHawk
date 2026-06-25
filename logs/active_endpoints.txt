@@ -1,0 +1,6 @@
+/users
+/patients
+/appointments
+/login
+/admin/debug
+/test
