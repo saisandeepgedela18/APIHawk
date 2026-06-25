@@ -5,9 +5,17 @@
     "version": "1.0"
   },
   "paths": {
-    "/users": {},
-    "/patients": {},
-    "/appointments": {},
-    "/login": {}
+    "/users": {
+      "get": {}
+    },
+    "/patients": {
+      "get": {}
+    },
+    "/appointments": {
+      "get": {}
+    },
+    "/login": {
+      "post": {}
+    }
   }
 }
