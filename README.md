@@ -314,7 +314,7 @@ Andhra University College of Engineering
 ### Connect with Me
 
 - GitHub: https://github.com/saisandeepgedela18
-- LinkedIn: *(Add your LinkedIn profile link here)*
+- LinkedIn: https://www.linkedin.com/in/sai-sandeep-gedela-196754375?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
 
 ---
 
