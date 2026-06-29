@@ -1,24 +1,57 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import sys
+import os
+
+# -----------------------------
+# Import Project Modules
+# -----------------------------
+
+sys.path.append(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "src"
+    )
+)
+
 from dashboard_data import get_dashboard_data
-# ----------------------------
+from security_service import get_security_findings
+
+# -----------------------------
 # Page Configuration
-# ----------------------------
+# -----------------------------
+
 st.set_page_config(
     page_title="APIHawk Security Dashboard",
     page_icon="🦅",
     layout="wide"
 )
 
-# ----------------------------
-# Load Data
-# ----------------------------
+# -----------------------------
+# Load Dashboard Data
+# -----------------------------
+
 dashboard = get_dashboard_data()
 
-# ----------------------------
+# -----------------------------
+# Calculate Security Score
+# -----------------------------
+
+security_score = 100
+
+security_score -= dashboard["critical"] * 25
+security_score -= dashboard["high"] * 8
+security_score -= dashboard["medium"] * 4
+security_score -= dashboard["low"] * 1
+
+security_score = max(security_score, 0)
+
+# -----------------------------
 # Sidebar
-# ----------------------------
+# -----------------------------
+
 st.sidebar.title("🦅 APIHawk")
 
 st.sidebar.markdown("---")
@@ -27,21 +60,22 @@ st.sidebar.success("Project Status")
 
 st.sidebar.write("✅ API Discovery")
 st.sidebar.write("✅ Shadow API Detection")
-st.sidebar.write("✅ Sensitive Endpoint Detection")
+st.sidebar.write("✅ Risk Classification")
+st.sidebar.write("✅ OWASP Analysis")
+st.sidebar.write("✅ JWT Analyzer")
 st.sidebar.write("✅ SQLite Database")
-st.sidebar.write("✅ HTML Report")
-st.sidebar.write("✅ PDF Report")
-st.sidebar.write("✅ Analytics Dashboard")
+st.sidebar.write("✅ HTML Reports")
+st.sidebar.write("✅ PDF Reports")
+st.sidebar.write("✅ Dashboard")
 
 st.sidebar.markdown("---")
 
-st.sidebar.info(
-"""
-### APIHawk v1.0
+st.sidebar.info("""
+### APIHawk v2.0
 
 Professional API Security Assessment Framework
 
-Features
+**Modules**
 
 • API Discovery
 
@@ -49,7 +83,9 @@ Features
 
 • Shadow API Detection
 
-• Authentication Detection
+• OWASP API Security
+
+• JWT Analyzer
 
 • Risk Classification
 
@@ -60,52 +96,124 @@ Features
 • PDF Reports
 
 • Analytics Dashboard
-"""
-)
+""")
 
-# ----------------------------
+# -----------------------------
 # Header
-# ----------------------------
+# -----------------------------
 
 st.title("🦅 APIHawk Security Dashboard")
 
-st.caption("Professional API Security Assessment & Monitoring Platform")
-
-st.markdown("---")
-
-# ----------------------------
-# Dashboard Metrics
-# ----------------------------
-
-col1,col2,col3,col4=st.columns(4)
-
-col1.metric(
-"Total APIs",
-dashboard["total_apis"]
-)
-
-col2.metric(
-"Shadow APIs",
-dashboard["shadow_apis"]
-)
-
-col3.metric(
-"Sensitive APIs",
-dashboard["sensitive_apis"]
-)
-
-col4.metric(
-"Overall Risk",
-dashboard["risk"]
+st.caption(
+    "Professional API Security Assessment & Monitoring Platform"
 )
 
 st.markdown("---")
 
-# ----------------------------
+# -----------------------------
+# Top Metrics
+# -----------------------------
+
+m1, m2, m3, m4 = st.columns(4)
+
+with m1:
+    st.metric(
+        "Total APIs",
+        dashboard["total_apis"]
+    )
+
+with m2:
+    st.metric(
+        "Shadow APIs",
+        dashboard["shadow_apis"]
+    )
+
+with m3:
+    st.metric(
+        "Sensitive APIs",
+        dashboard["sensitive_apis"]
+    )
+
+with m4:
+    st.metric(
+        "Overall Risk",
+        dashboard["risk"]
+    )
+
+st.divider()
+
+# -----------------------------
+# Security Center
+# -----------------------------
+
+st.header("🛡️ Security Center")
+
+sec1, sec2, sec3, sec4 = st.columns(4)
+
+with sec1:
+    st.metric(
+        "Shadow APIs",
+        dashboard["shadow_apis"]
+    )
+
+with sec2:
+    st.metric(
+        "OWASP Findings",
+        dashboard["owasp_findings"]
+    )
+
+with sec3:
+    st.metric(
+        "JWT Issues",
+        dashboard["jwt_issues"]
+    )
+
+with sec4:
+    st.metric(
+        "Security Score",
+        f"{security_score}%"
+    )
+
+st.markdown("---")
+
+# -----------------------------
+# Latest Security Findings
+# -----------------------------
+
+st.subheader("🚨 Latest Security Findings")
+
+findings = get_security_findings()
+
+rows = []
+
+for item in findings:
+
+    rows.append({
+
+        "Method": item["method"],
+
+        "Endpoint": item["endpoint"],
+
+        "Risk": item["risk"],
+
+        "Reason": item["reason"]
+
+    })
+
+findings_df = pd.DataFrame(rows)
+
+st.dataframe(
+    findings_df,
+    use_container_width=True
+)
+
+st.markdown("---")
+
+# -----------------------------
 # Security Summary
-# ----------------------------
+# -----------------------------
 
-left,right=st.columns([2,1])
+left, right = st.columns([2, 1])
 
 with left:
 
@@ -115,31 +223,51 @@ with left:
 
     st.success("✔ Authentication Detected")
 
-    st.warning("⚠ Shadow APIs Found")
+    if dashboard["shadow_apis"] > 0:
+        st.warning(
+            f"⚠ {dashboard['shadow_apis']} Shadow APIs Found"
+        )
+    else:
+        st.success("✔ No Shadow APIs Found")
 
-    st.warning("⚠ Sensitive APIs Found")
+    if dashboard["sensitive_apis"] > 0:
+        st.warning(
+            f"⚠ {dashboard['sensitive_apis']} Sensitive APIs Found"
+        )
+    else:
+        st.success("✔ No Sensitive APIs Found")
+
+    if dashboard["critical"] > 0:
+        st.error(
+            f"🚨 Critical APIs : {dashboard['critical']}"
+        )
+
+    if dashboard["high"] > 0:
+        st.warning(
+            f"⚠ High Risk APIs : {dashboard['high']}"
+        )
+
+    if dashboard["medium"] > 0:
+        st.info(
+            f"ℹ Medium Risk APIs : {dashboard['medium']}"
+        )
+
+    if dashboard["low"] > 0:
+        st.success(
+            f"✔ Low Risk APIs : {dashboard['low']}"
+        )
 
 with right:
 
     st.subheader("Overall Security Score")
 
-    if dashboard["risk"]=="CRITICAL":
-        score=40
-
-    elif dashboard["risk"]=="HIGH":
-        score=70
-
-    elif dashboard["risk"]=="MEDIUM":
-        score=85
-
-    else:
-        score=95
-
-    st.progress(score)
+    st.progress(security_score)
 
     st.error(dashboard["risk"])
 
-    st.caption(f"Security Score : {score}/100")
+    st.caption(
+        f"Security Score : {security_score}/100"
+    )
 
 st.markdown("---")
 # ----------------------------
@@ -152,7 +280,7 @@ with chart1:
 
     st.subheader("📊 Risk Distribution")
 
-    fig, ax = plt.subplots(figsize=(5,5))
+    fig, ax = plt.subplots(figsize=(5, 5))
 
     labels = [
         "Critical",
@@ -181,9 +309,9 @@ with chart1:
 
 with chart2:
 
-    st.subheader("📈 API Categories")
+    st.subheader("📈 API Statistics")
 
-    fig2, ax2 = plt.subplots(figsize=(6,5))
+    fig2, ax2 = plt.subplots(figsize=(6, 5))
 
     categories = [
         "Total APIs",
@@ -200,85 +328,9 @@ with chart2:
     ax2.bar(categories, counts)
 
     ax2.set_ylabel("Count")
-
-    ax2.set_title("API Category Statistics")
+    ax2.set_title("API Statistics")
 
     st.pyplot(fig2)
-
-st.markdown("---")
-
-# ----------------------------
-# Recent Scan Results
-# ----------------------------
-
-st.subheader("📋 Recent Scan Results")
-
-scan_data = {
-    "Endpoint": [
-        "/login",
-        "/admin/debug",
-        "/patients",
-        "/users",
-        "/appointments"
-    ],
-
-    "Method": [
-        "POST",
-        "GET",
-        "GET",
-        "GET",
-        "POST"
-    ],
-
-    "Category": [
-        "Sensitive Endpoint",
-        "Shadow API",
-        "Normal API",
-        "Normal API",
-        "Normal API"
-    ],
-
-    "Risk": [
-        "HIGH",
-        "CRITICAL",
-        "LOW",
-        "LOW",
-        "LOW"
-    ],
-
-    "Status": [
-        "⚠ Review Required",
-        "🚨 Immediate Action",
-        "✅ Secure",
-        "✅ Secure",
-        "✅ Secure"
-    ]
-}
-
-df = pd.DataFrame(scan_data)
-
-st.dataframe(df, use_container_width=True)
-
-st.markdown("---")
-# ----------------------------
-# Security Recommendations
-# ----------------------------
-
-st.subheader("🛡️ Security Recommendations")
-
-recommendations = [
-    "Remove undocumented Shadow APIs immediately.",
-    "Protect sensitive endpoints using strong authentication.",
-    "Enable API rate limiting.",
-    "Implement API request logging and monitoring.",
-    "Review authentication and authorization policies.",
-    "Keep Swagger/OpenAPI documentation synchronized.",
-    "Perform regular API vulnerability assessments.",
-    "Review exposed debug and admin endpoints."
-]
-
-for rec in recommendations:
-    st.success("✔ " + rec)
 
 st.markdown("---")
 
@@ -289,13 +341,23 @@ st.markdown("---")
 st.subheader("📌 Risk Summary")
 
 summary = pd.DataFrame({
-    "Severity": ["Critical", "High", "Medium", "Low"],
+
+    "Severity": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+    ],
+
     "Count": [
+
         dashboard["critical"],
         dashboard["high"],
         dashboard["medium"],
         dashboard["low"]
+
     ]
+
 })
 
 st.table(summary)
@@ -303,39 +365,131 @@ st.table(summary)
 st.markdown("---")
 
 # ----------------------------
-# Scan Information
+# Security Recommendations
 # ----------------------------
 
-col1, col2 = st.columns(2)
+st.subheader("🛡️ Security Recommendations")
 
-with col1:
-    st.info("""
-### Scan Information
+recommendations = [
 
-**Project:** Digital Health Gateway
+    "Remove undocumented Shadow APIs immediately.",
 
-**Scanner:** APIHawk v1.0
+    "Protect sensitive endpoints using authentication and authorization.",
 
-**Database:** SQLite
+    "Implement API rate limiting.",
 
-**Report Formats:**
-- HTML
-- PDF
-- Dashboard
-""")
+    "Enable API request logging and monitoring.",
 
-with col2:
+    "Review OWASP API Security Top 10 controls.",
+
+    "Keep Swagger/OpenAPI documentation synchronized.",
+
+    "Rotate JWT signing secrets regularly.",
+
+    "Disable debug and admin endpoints in production."
+
+]
+
+for rec in recommendations:
+
+    st.success("✔ " + rec)
+
+st.markdown("---")
+
+# ----------------------------
+# Project Information
+# ----------------------------
+
+left, right = st.columns(2)
+
+with left:
+
     st.info(f"""
-### Current Assessment
+### Project Information
 
-**Overall Risk:** {dashboard["risk"]}
+**Project**
 
-**Total APIs:** {dashboard["total_apis"]}
+APIHawk
 
-**Shadow APIs:** {dashboard["shadow_apis"]}
+**Version**
 
-**Sensitive APIs:** {dashboard["sensitive_apis"]}
+2.0
+
+**Framework**
+
+Python + Streamlit
+
+**Database**
+
+SQLite
+
+**Reports**
+
+• HTML
+
+• PDF
 """)
+
+with right:
+
+    st.info(f"""
+### Current Scan
+
+**Overall Risk**
+
+{dashboard["risk"]}
+
+**Security Score**
+
+{security_score}/100
+
+**OWASP Findings**
+
+{dashboard["owasp_findings"]}
+
+**JWT Issues**
+
+{dashboard["jwt_issues"]}
+""")
+
+st.markdown("---")
+
+# ----------------------------
+# Scan Results
+# ----------------------------
+
+st.subheader("📋 Live Scan Results")
+
+scan_rows = []
+
+for item in findings:
+
+    status = "✅ Secure"
+
+    if item["risk"] == "CRITICAL":
+        status = "🚨 Critical"
+
+    elif item["risk"] == "HIGH":
+        status = "⚠ High"
+
+    elif item["risk"] == "MEDIUM":
+        status = "🟡 Medium"
+
+    scan_rows.append({
+
+        "Method": item["method"],
+        "Endpoint": item["endpoint"],
+        "Risk": item["risk"],
+        "Status": status
+
+    })
+
+scan_df = pd.DataFrame(scan_rows)
+
+st.dataframe(
+    scan_df,
+    use_container_width=True
+)
 
 st.markdown("---")
 
@@ -344,9 +498,13 @@ st.markdown("---")
 # ----------------------------
 
 st.caption(
-    "🦅 APIHawk v1.0 | Professional API Security Assessment Framework"
+    "🦅 APIHawk v2.0 | Professional API Security Assessment Framework"
 )
 
 st.caption(
-    "Developed by Sai Sandeep Gedela | Python • Streamlit • SQLite"
+    "Developed by Sai Sandeep Gedela"
+)
+
+st.caption(
+    "Python • Streamlit • SQLite • OWASP API Security • JWT Analysis"
 )

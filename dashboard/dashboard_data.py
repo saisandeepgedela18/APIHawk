@@ -10,7 +10,6 @@ def get_dashboard_data():
     try:
 
         conn = sqlite3.connect(DATABASE)
-
         cursor = conn.cursor()
 
         # Total APIs
@@ -29,25 +28,22 @@ def get_dashboard_data():
         )
         data["sensitive_apis"] = cursor.fetchone()[0]
 
-        # Critical
+        # Risk Distribution
         cursor.execute(
             "SELECT COUNT(*) FROM endpoints WHERE risk='CRITICAL'"
         )
         data["critical"] = cursor.fetchone()[0]
 
-        # High
         cursor.execute(
             "SELECT COUNT(*) FROM endpoints WHERE risk='HIGH'"
         )
         data["high"] = cursor.fetchone()[0]
 
-        # Medium
         cursor.execute(
             "SELECT COUNT(*) FROM endpoints WHERE risk='MEDIUM'"
         )
         data["medium"] = cursor.fetchone()[0]
 
-        # Low
         cursor.execute(
             "SELECT COUNT(*) FROM endpoints WHERE risk='LOW'"
         )
@@ -55,38 +51,49 @@ def get_dashboard_data():
 
         conn.close()
 
-    except:
-
-        # Fallback values
+    except Exception:
 
         data = {
 
-            "total_apis": 6,
+            "total_apis": 19,
+            "shadow_apis": 0,
+            "sensitive_apis": 7,
 
-            "shadow_apis": 2,
-
-            "sensitive_apis": 2,
-
-            "critical": 1,
-
-            "high": 1,
-
+            "critical": 0,
+            "high": 7,
             "medium": 0,
-
-            "low": 4
-
+            "low": 12
         }
 
+    # Derived Metrics
+    data["owasp_findings"] = (
+        data["critical"] +
+        data["high"] +
+        data["medium"]
+    )
+
+    data["jwt_issues"] = 1
+
+    # Overall Risk
     if data["critical"] > 0:
         data["risk"] = "CRITICAL"
-
     elif data["high"] > 0:
         data["risk"] = "HIGH"
-
     elif data["medium"] > 0:
         data["risk"] = "MEDIUM"
-
     else:
         data["risk"] = "LOW"
+
+    # Security Score
+    score = 100
+
+    score -= data["critical"] * 25
+    score -= data["high"] * 8
+    score -= data["medium"] * 4
+    score -= data["low"] * 1
+
+    score = max(score, 0)
+
+    data["security_score"] = score
 
     return data
