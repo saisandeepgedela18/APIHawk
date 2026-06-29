@@ -1,57 +1,74 @@
-# 🦅 APIHawk
+# 🦅 APIHawk v2.0
 
-**API Security Assessment & Shadow API Discovery Framework**
+### Professional API Security Assessment Framework
 
-APIHawk is a Python-based security assessment framework designed to analyze OpenAPI/Swagger specifications, identify sensitive and undocumented APIs, classify security risks, and generate professional security reports.
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-Live-red?logo=streamlit)
+![SQLite](https://img.shields.io/badge/Database-SQLite-blue?logo=sqlite)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/Version-v2.0-orange)
+
+---
 
 ## 🌐 Live Demo
 
-🚀 **Try APIHawk Online**
+### 🚀 Try APIHawk Online
 
-[🚀 Launch APIHawk Live](https://apihawk-security-dashboard.streamlit.app)
+**🔗 https://apihawk-security-dashboard.streamlit.app**
+
 ---
 
 ## 📖 Overview
 
-Modern applications expose numerous APIs, making API security an essential part of application security. APIHawk automates API discovery and performs security analysis by identifying:
+APIHawk is a professional API Security Assessment Framework developed using Python.
 
-* Shadow APIs
-* Sensitive endpoints
-* Risk levels
-* API inventory
-* Security reports
+The framework automatically analyzes OpenAPI/Swagger specifications to discover APIs, identify sensitive endpoints, detect Shadow APIs, classify security risks, analyze JWT authentication, and generate professional security reports.
 
-The framework also provides an interactive analytics dashboard for visualizing scan results.
+APIHawk provides an interactive Streamlit dashboard together with HTML and PDF reporting for comprehensive API security assessment.
 
 ---
 
 ## ✨ Features
 
-* 🔍 OpenAPI/Swagger API Discovery
-* 🛡️ Sensitive Endpoint Detection
-* 👤 Shadow API Identification
-* 📊 Risk Classification
-* 🗄️ SQLite Database Integration
-* 📄 HTML Security Report Generation
-* 📕 PDF Security Report Generation
-* 📈 Streamlit Analytics Dashboard
+- 🔍 API Discovery
+- 👤 Shadow API Detection
+- 🛡️ Sensitive Endpoint Detection
+- 📊 Risk Classification Engine
+- 🔐 JWT Authentication Analyzer
+- 🛡️ OWASP API Security Analysis
+- 🗄️ SQLite Database Integration
+- 📈 Interactive Streamlit Dashboard
+- 📄 Professional HTML Reports
+- 📕 Professional PDF Reports
+- ⚡ Live API Assessment
 
 ---
 
-## 🛠️ Technology Stack
+## 🏗️ System Architecture
 
-* Python 3
-* Streamlit
-* SQLite
-* Requests
-* Pandas
-* Matplotlib
-
+```
+                Swagger / OpenAPI
+                        │
+                        ▼
+               API Discovery Engine
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+ Shadow APIs     Sensitive APIs     Risk Engine
+        │               │               │
+        └───────────────┼───────────────┘
+                        ▼
+              SQLite Security Database
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+ Dashboard        HTML Report      PDF Report
+```
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```text
+```
 APIHawk/
 │
 ├── dashboard/
@@ -61,32 +78,75 @@ APIHawk/
 ├── database/
 │   └── apihawk.db
 │
+├── datasets/
+│
+├── docs/
+│
 ├── reports/
-│   ├── report.html
-│   └── report.pdf
+│   ├── security_report.html
+│   └── security_report.pdf
+│
+├── screenshots/
 │
 ├── src/
+│   ├── api_discovery.py
 │   ├── database_manager.py
-│   ├── live_api_scanner.py
+│   ├── endpoint_comparison.py
+│   ├── endpoint_enumerator.py
 │   ├── html_report_generator.py
-│   └── pdf_report_generator.py
+│   ├── jwt_analyzer.py
+│   ├── live_api_scanner.py
+│   ├── log_parser.py
+│   ├── owasp_engine.py
+│   ├── pdf_report_generator.py
+│   ├── report_generator.py
+│   ├── risk_classifier.py
+│   ├── risk_engine.py
+│   ├── risk_scoring.py
+│   ├── security_headers.py
+│   ├── security_service.py
+│   ├── sensitive_endpoint_detector.py
+│   ├── shadow_api_detector.py
+│   ├── swagger_parser.py
+│   └── main.py
 │
 ├── requirements.txt
-└── README.md
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-## 🚀 Installation
+# ⚙️ Technology Stack
 
-Clone the repository:
+| Technology | Purpose |
+|------------|---------|
+| Python | Core Programming Language |
+| Streamlit | Interactive Dashboard |
+| SQLite | Security Findings Database |
+| ReportLab | PDF Report Generation |
+| HTML/CSS | HTML Report Generation |
+| Pandas | Data Processing |
+| Matplotlib | Data Visualization |
+| OpenAPI / Swagger | API Specification Parsing |
+
+---
+
+# 🚀 Installation
+
+Clone the repository
 
 ```bash
 git clone https://github.com/saisandeepgedela18/APIHawk.git
+```
+
+Move into the project
+
+```bash
 cd APIHawk
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -94,7 +154,9 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running the Dashboard
+# ▶️ Running APIHawk
+
+### Launch Dashboard
 
 ```bash
 streamlit run dashboard/dashboard.py
@@ -102,64 +164,215 @@ streamlit run dashboard/dashboard.py
 
 ---
 
-## 📊 Current Modules
+### Generate HTML Report
 
-* ✅ API Discovery
-* ✅ Sensitive Endpoint Detection
-* ✅ Risk Classification
-* ✅ SQLite Database
-* ✅ HTML Report Generator
-* ✅ PDF Report Generator
-* ✅ Analytics Dashboard
+```bash
+python src/html_report_generator.py
+```
 
 ---
 
-## 🎯 Future Enhancements
+### Generate PDF Report
 
-* JWT Authentication Analysis
-* OWASP API Security Top 10 Checks
-* Live API Monitoring
-* CI/CD Integration
-* Docker Support
-* Cloud Deployment
+```bash
+python src/pdf_report_generator.py
+```
 
 ---
+
+# 📊 Modules
+
+| Module | Status |
+|---------|--------|
+| API Discovery | ✅ |
+| Shadow API Detection | ✅ |
+| Sensitive Endpoint Detection | ✅ |
+| Risk Classification | ✅ |
+| OWASP API Security Analysis | ✅ |
+| JWT Authentication Analyzer | ✅ |
+| SQLite Database | ✅ |
+| HTML Report Generator | ✅ |
+| PDF Report Generator | ✅ |
+| Interactive Dashboard | ✅ |
+
 ---
 
-# 📸 Project Screenshots
+# 📸 Screenshots
 
 ## 🖥️ Interactive Dashboard
 
-![Dashboard](screenshots/20_Dynamic_Analytics_Dashboard.png.jpeg)
+> *(Add `screenshots/dashboard.png` here)*
+
+```markdown
+![Dashboard](screenshots/dashboard.png)
+```
+
+---
+
+## 📄 HTML Security Report
+
+```markdown
+![HTML Report](screenshots/html_report.png)
+```
+
+---
+
+## 📕 PDF Security Report
+
+```markdown
+![PDF Report](screenshots/pdf_report.png)
+```
 
 ---
 
 ## 🔍 Live API Scanner
 
-![Scanner](screenshots/21_Live_API_Scanner_Output.png.png)
+```markdown
+![Scanner](screenshots/scanner.png)
+```
+---
+
+# 🛣️ Roadmap
+
+### Upcoming Features
+
+- 🤖 AI-Based Risk Scoring
+- 🐳 Docker Deployment
+- ☁️ Cloud Security Assessment
+- 🔄 CI/CD Security Integration
+- 📡 Continuous API Monitoring
+- 🔗 Burp Suite Integration
+- 🌐 CVE & Threat Intelligence Integration
+- 📱 REST API for APIHawk
+- 📈 Advanced Security Analytics
+- 🔔 Real-Time Security Alerts
 
 ---
 
-## 📄 Professional HTML Report
+# 📊 Sample Output
 
-![HTML Report](screenshots/17_Professional_HTML_Report.png.png)
+APIHawk automatically generates professional security reports.
+
+### Dashboard
+
+- Interactive Streamlit Dashboard
+- Real-time Security Metrics
+- API Inventory
+- Risk Distribution
+- Security Score
+
+### HTML Report
+
+- Executive Summary
+- Security Findings
+- Risk Distribution
+- OWASP API Security Summary
+- Security Recommendations
+
+### PDF Report
+
+- Professional Printable Report
+- Security Statistics
+- Executive Summary
+- Findings
+- Assessment Summary
 
 ---
 
-## 📕 Professional PDF Report
+# 🔒 Security Checks Performed
 
-![PDF Report](screenshots/19_Professional_PDF_Report.png.png)
+✔ API Discovery
 
-## 👨‍💻 Author
+✔ Shadow API Detection
 
-**Sai Sandeep Gedela**
+✔ Sensitive Endpoint Detection
 
-Computer Science Engineering Student
+✔ Risk Classification
+
+✔ OWASP API Security Analysis
+
+✔ JWT Authentication Analysis
+
+✔ SQLite Security Logging
+
+✔ HTML Report Generation
+
+✔ PDF Report Generation
+
+✔ Interactive Dashboard
+
+---
+
+# 👨‍💻 Author
+
+## Sai Sandeep Gedela
+
+**Computer Science Engineering Student**
 
 Andhra University College of Engineering
 
+### Connect with Me
+
+- GitHub: https://github.com/saisandeepgedela18
+- LinkedIn: *(Add your LinkedIn profile link here)*
+
 ---
 
-## ⭐ Support
+# 🤝 Contributing
 
-If you found this project useful, consider giving it a ⭐ on GitHub.
+Contributions, suggestions, and improvements are welcome.
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Push the branch
+5. Open a Pull Request
+
+---
+
+# ⭐ Support
+
+If you found this project useful:
+
+⭐ Star this repository
+
+🍴 Fork the project
+
+🛡️ Share it with the cybersecurity community
+
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to:
+
+- Streamlit
+- Python Community
+- OWASP Foundation
+- OpenAPI Initiative
+- ReportLab
+- SQLite
+- Matplotlib
+- Pandas
+
+for providing excellent open-source technologies that made APIHawk possible.
+
+---
+
+<div align="center">
+
+# 🦅 APIHawk v2.0
+
+### Professional API Security Assessment Framework
+
+**Developed by Sai Sandeep Gedela**
+
+⭐ **If you like this project, don't forget to Star the repository!** ⭐
+
+</div>
