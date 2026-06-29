@@ -129,3 +129,53 @@ def statistics():
         "high": high,
         "low": low
     }
+def create_log_table():
+
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS log_endpoints(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        method TEXT,
+        endpoint TEXT
+
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+def insert_log_endpoint(method, endpoint):
+
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO log_endpoints(method, endpoint)
+    VALUES(?, ?)
+    """, (method, endpoint))
+
+    conn.commit()
+    conn.close()
+
+
+def fetch_log_endpoints():
+
+    conn = connect()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT method, endpoint
+    FROM log_endpoints
+    ORDER BY endpoint
+    """)
+
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return rows
