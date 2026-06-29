@@ -124,6 +124,31 @@ streamlit run dashboard/dashboard.py
 * Cloud Deployment
 
 ---
+---
+
+# 📸 Project Screenshots
+
+## 🖥️ Interactive Dashboard
+
+![Dashboard](screenshots/20_Dynamic_Analytics_Dashboard.png.jpeg)
+
+---
+
+## 🔍 Live API Scanner
+
+![Scanner](screenshots/21_Live_API_Scanner_Output.png.png)
+
+---
+
+## 📄 Professional HTML Report
+
+![HTML Report](screenshots/17_Professional_HTML_Report.png.png)
+
+---
+
+## 📕 Professional PDF Report
+
+![PDF Report](screenshots/19_Professional_PDF_Report.png.png)
 
 ## 👨‍💻 Author
 
