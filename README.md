@@ -197,25 +197,67 @@ python src/pdf_report_generator.py
 
 ---
 
-# 📸 Screenshots
+# 📸 Project Screenshots
 
-## 🖥️ Interactive Dashboard
+## Project Structure
+![Project Structure](screenshots/01_project_structure.png.png)
 
-> *(Add `screenshots/dashboard.png` here)*
+## Source Modules
+![Source Modules](screenshots/02_source_modules.png.png)
 
-```markdown
-![Dashboard](screenshots/dashboard.png)
-```
+## API Discovery
+![API Discovery](screenshots/03_api_discovery_output.png.png)
 
----
+## Endpoint Enumeration
+![Endpoint Enumeration](screenshots/04_endpoint_enumeration.png.png)
 
-## 📄 HTML Security Report
+## Security Header Analysis
+![Security Headers](screenshots/05_security_headers.png.png)
 
-```markdown
-![HTML Report](screenshots/html_report.png)
-```
+## Risk Scoring
+![Risk Scoring](screenshots/06_risk_scoring.png.png)
 
----
+## Authentication Detector
+![Authentication Detector](screenshots/09_Authentication_Detector_Output.png.png)
+
+## OpenAPI Analyzer
+![OpenAPI Analyzer](screenshots/10_OpenAPI_Analyzer_Output.png.png)
+
+## Shadow API Detection
+![Shadow API Detector](screenshots/11_Advanced_Shadow_API_Detector_Output.png.png)
+
+## Sensitive Endpoint Detection
+![Sensitive Endpoint Detector](screenshots/12_Sensitive_Endpoint_Detector_Output.png.png)
+
+## Risk Classification Engine
+![Risk Classification](screenshots/13_Risk_Classification_Engine_Output.png.png)
+
+## SQLite Database
+![SQLite Database](screenshots/14_SQLite_Database_Output.png.png)
+
+## Interactive Dashboard
+![Dashboard](screenshots/15_Streamlit_Dashboard.png.png)
+
+## Professional HTML Report
+![Professional HTML Report](screenshots/17_Professional_HTML_Report.png.png)
+
+## Professional PDF Report
+![Professional PDF Report](screenshots/19_Professional_PDF_Report.png.png)
+
+## Dynamic Analytics Dashboard
+![Analytics Dashboard](screenshots/20_Dynamic_Analytics_Dashboard.png.jpeg)
+
+## Live API Scanner
+![Live API Scanner](screenshots/21_Live_API_Scanner_Output.png.png)
+
+### HTML Report Preview
+
+![HTML Report - Page 1](screenshots/Screenshot%20(156).png)
+
+![HTML Report - Page 2](screenshots/Screenshot%20(157).png)
+
+![HTML Report - Page 3](screenshots/Screenshot%20(158).png)
+
 
 ## 📕 PDF Security Report
 
